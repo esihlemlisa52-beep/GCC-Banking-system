@@ -86,7 +86,16 @@ void deposit(string accountNumbers[], string pins[], double balances[], int size
     else
     {
         cout << "Enter deposit amount: R";
-        cin >> amount;
+s
+        if (!(cin >> amount))
+         {
+             cout << "Invalid input! Please enter numbers only." << endl;
+
+             cin.clear();
+             cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+             return;
+         }
 
         if (amount > 0)
         {
@@ -116,7 +125,16 @@ void withdraw(string accountNumbers[],string pins[], double balances[], int size
     else
     {
         cout << "Enter withdrawal amount: R";
-        cin >> amount;
+
+       if (!(cin >> amount))
+       {
+         cout << "Invalid input! Please enter numbers only." << endl;
+
+         cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    return;
+}
 
         if (amount <= 0)
         {
@@ -170,10 +188,39 @@ void sendCash(string accountNumbers[], string pins[], double balances[], int siz
     {
         cout << "You cannot send money to your own account!" << endl;
     }
+  else
+{
+    cout << "Enter amount to send: R";
+
+    if (!(cin >> amount))
+    {
+        cout << "Invalid input! Please enter numbers only." << endl;
+
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        return;
+    }
+
+    if (amount <= 0)
+    {
+        cout << "Invalid amount!" << endl;
+    }
+    else if (amount > balances[senderIndex])
+    {
+        cout << "Insufficient balance!" << endl;
+    }
     else
     {
-        cout << "Enter amount to send: R";
-        cin >> amount;
+        balances[senderIndex] -= amount;
+        balances[receiverIndex] += amount;
+
+        cout << "Cash sent successfully!" << endl;
+        cout << "Your new balance: R" << balances[senderIndex] << endl;
+        cout << "Receiver new balance: R" << balances[receiverIndex] << endl;
+    }
+}
+
 
         if (amount <= 0)
         {
@@ -193,7 +240,7 @@ void sendCash(string accountNumbers[], string pins[], double balances[], int siz
             cout << "Receiver new balance: R" << balances[receiverIndex] << endl;
         }
     }
-}
+
 // Function to check balance
 void checkBalance(string accountNumbers[], string pins[], double balances[], int size)
 {
